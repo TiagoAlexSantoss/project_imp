@@ -56,3 +56,16 @@ class CadastroItem(models.Model):
 
     def __str__(self):
        return self.nome_item
+    
+class CadastroRespostaItem(models.Model):
+    resposta_item = models.CharField(max_length=200, null=False, blank=False)
+    nome_item = models.ForeignKey(
+        to=CadastroItem,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name="item"
+    )
+
+    def __str__(self):
+       return self.nome_item

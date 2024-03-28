@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Itens Cadastrados</title>
+</head>
+<body>
+    <h1>Itens Cadastrados</h1>
+        {% for item in itens %}
+    <li>{{ item.nome_item }}</li>
+        {% endfor %}
+</body>
+</html>
