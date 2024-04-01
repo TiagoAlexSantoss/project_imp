@@ -1,14 +1,52 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Itens Cadastrados</title>
+    <title>Listar Itens</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}"> <!-- Importar arquivo de estilos do Bootstrap -->
+    <style>
+        /* Aplique um espaçamento inferior aos campos do formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        /* Estilo para o formulário */
+        .custom-form {
+            max-width: 800px; /* Largura máxima do formulário */
+            margin: 0 auto; /* Centralizar o formulário na tela */
+            padding: 20px; /* Espaçamento interno do formulário */
+            border: 1px solid #ccc; /* Borda do formulário */
+            border-radius: 5px; /* Borda arredondada */
+            background-color: #f9f9f9; /* Cor de fundo do formulário */
+            margin-bottom: 30px; /* Adiciona margem inferior para separar os formulários */
+        }
+        /* Estilo para o título do subgrupo */
+        .subgrupo-title {
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Itens Cadastrados</h1>
-        {% for item in itens %}
-    <li>{{ item.nome_item }}</li>
+    <div class="container">
+        <h1 class="text-center">Lista de Itens Cadastrados</h1>
+        {% for subgrupo, itens in itens_por_subgrupo.items %}
+        <div class="mx-auto custom-form">
+            <h2 class="subgrupo-title">{{ subgrupo.nome_subgrupo }}</h2>
+            <form>
+                {% for item in itens %}
+                <div class="form-group">
+                    <label for="{{ item.nome_item }}">{{ item.nome_item }}</label>
+                </div>
+                {% endfor %}
+            </form>
+        </div>
         {% endfor %}
+        <div class="text-right"> <!-- Alinhe o botão à direita -->
+            <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+    </div>
 </body>
 </html>
