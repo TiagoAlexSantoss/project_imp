@@ -1,32 +1,43 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
+/* Adicione o CSS complementar ao seu arquivo styles.css */
 
+/* Estilo para o container principal */
 .container {
-    max-width: 600px;
-    margin: 50px auto;
+    max-width: 800px; /* Aumentando a largura máxima */
+    margin: 50px auto; /* Ajustando a margem superior */
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilo para o título principal */
 h1 {
     text-align: center;
 }
 
+/* Estilo para a lista de itens */
+ul {
+    list-style-type: none; /* Remover os marcadores de lista */
+    padding-left: 0; /* Remover o recuo padrão da lista */
+}
+
+/* Estilo para os botões de navegação */
+.btn {
+    margin-top: 20px; /* Espaçamento superior para separar os botões */
+}
+
+/* Estilo para o formulário */
 form {
     display: flex;
     flex-direction: column;
 }
 
+/* Estilo para os rótulos do formulário */
 label {
     margin-bottom: 8px;
 }
 
+/* Estilo para os campos de entrada de texto */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -39,6 +50,7 @@ button {
     font-size: 16px;
 }
 
+/* Estilo para o botão de envio */
 button {
     background-color: #007bff;
     color: #fff;
@@ -47,6 +59,7 @@ button {
     transition: background-color 0.3s ease;
 }
 
+/* Estilo para o efeito hover no botão de envio */
 button:hover {
     background-color: #0056b3;
 }

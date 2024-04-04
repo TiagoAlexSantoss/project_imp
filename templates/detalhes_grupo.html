@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ grupo.nome_grupo }}</title>
+    <!-- Inclua seus arquivos de CSS e JS aqui -->
+    <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}"> <!-- Importe o arquivo CSS do Bootstrap -->
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}"> <!-- Importe o seu arquivo CSS personalizado -->
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">{{ grupo.nome_grupo }}</h1>
+        
+        <!-- Iterando sobre cada subgrupo -->
+        {% for subgrupo, itens in itens_por_subgrupo.items %}
+        <div>
+            <h2>{{ subgrupo.nome_subgrupo }}</h2>
+            
+            <!-- Iterando sobre os itens relacionados a este subgrupo -->
+            <ul>
+                {% for item in itens %}
+                <li>{{ item.nome_item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        <!-- Botões de navegação -->
+        {% if grupo_anterior_id %}
+        <a href="{% url 'detalhes_grupo' grupo_id=grupo_anterior_id %}" class="btn btn-primary">Voltar</a>
+        {% endif %}
+        {% if proximo_grupo_id %}
+        <a href="{% url 'detalhes_grupo' grupo_id=proximo_grupo_id %}" class="btn btn-primary">Próxima Página</a>
+        {% endif %}
+    </div>
+</body>
+</html>
