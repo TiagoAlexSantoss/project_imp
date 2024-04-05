@@ -49,21 +49,34 @@ def responder_item(request):
     tipos_por_item = {item.id: item.tipo for subgrupo, itens in itens_por_subgrupo.items() for item in itens}
 
     return render(request, 'resposta.html', {'subgrupos': subgrupos, 'itens_por_subgrupo': itens_por_subgrupo,  'tipos_por_item': tipos_por_item} )
-from django.shortcuts import render
-from .models import CadastroGrupo, CadastroSubGrupo, CadastroItem
 
 from django.shortcuts import render
 from .models import CadastroGrupo, CadastroSubGrupo, CadastroItem
 
 def detalhes_grupo(request, grupo_id):
-    grupo = CadastroGrupo.objects.get(pk=grupo_id)
-    subgrupos = CadastroSubGrupo.objects.filter(nome_grupo=grupo)
-    itens_por_subgrupo = {}
-    for subgrupo in subgrupos:
-        itens_por_subgrupo[subgrupo] = CadastroItem.objects.filter(nome_subgrupo=subgrupo)
+    grupo = CadastroGrupo.objects.get(pk=grupo_id, ativo=True)
+    subgrupos = CadastroSubGrupo.objects.filter(nome_grupo=grupo, ativo=True)
     
-    # Recuperar todos os grupos ordenados pela ordem definida
-    todos_grupos = CadastroGrupo.objects.order_by('ordem_grupo')
+    itens_por_subgrupo = {}
+    
+    # Iterar sobre os subgrupos ativos
+    for subgrupo in subgrupos:
+        # Filtrar itens ativos relacionados ao subgrupo
+        itens_ativos = CadastroItem.objects.filter(nome_subgrupo=subgrupo, ativo=True)
+        
+        # Para cada item do tipo 'Lista', recupere as opções da lista
+        for item in itens_ativos:
+            if item.tipo == 'list':
+                # Verifique se há uma lista associada ao item
+                if item.lista:
+                    # Recupere todas as opções da lista associada ao item
+                    item.opcoes_lista = item.lista.opcaolista_set.all()
+        
+        # Adicionar os itens ativos ao dicionário
+        itens_por_subgrupo[subgrupo] = itens_ativos
+    
+    # Recuperar todos os grupos ativos ordenados pela ordem definida
+    todos_grupos = CadastroGrupo.objects.filter(ativo=True).order_by('ordem_grupo')
     
     # Encontrar o índice do grupo atual na lista ordenada
     index_grupo_atual = list(todos_grupos).index(grupo)
@@ -93,3 +106,4 @@ def detalhes_grupo(request, grupo_id):
     }
     
     return render(request, 'detalhes_grupo.html', context)
+

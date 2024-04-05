@@ -7,7 +7,46 @@
     <title>{{ grupo.nome_grupo }}</title>
     <!-- Inclua seus arquivos de CSS e JS aqui -->
     <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}"> <!-- Importe o arquivo CSS do Bootstrap -->
-    <link rel="stylesheet" href="{% static 'styles/styles.css' %}"> <!-- Importe o seu arquivo CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}"> <!-- Importe o seu arquivo CSS personalizado -->
+    <style>
+        /* Aplique um espaçamento inferior aos campos do formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        /* Estilo para o formulário */
+        .custom-form {
+            max-width: 800px; /* Largura máxima do formulário */
+            margin: 0 auto; /* Centralizar o formulário na tela */
+            padding: 20px; /* Espaçamento interno do formulário */
+            border: 1px solid #ccc; /* Borda do formulário */
+            border-radius: 5px; /* Borda arredondada */
+            background-color: #f9f9f9; /* Cor de fundo do formulário */
+            margin-bottom: 30px; /* Adiciona margem inferior para separar os formulários */
+        }
+        /* Estilo para o título do subgrupo */
+        .subgrupo-title {
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        } 
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-container .btn {
+            margin: 0 5px;
+            
+        }
+        .btn-container .btn-left {
+            float: left;
+        }
+        .btn-container .btn-right {
+            float: right;
+        }
+        .btn-container .btn-group {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,24 +54,44 @@
         
         <!-- Iterando sobre cada subgrupo -->
         {% for subgrupo, itens in itens_por_subgrupo.items %}
-        <div>
+        <div class="mx-auto custom-form">
             <h2>{{ subgrupo.nome_subgrupo }}</h2>
             
             <!-- Iterando sobre os itens relacionados a este subgrupo -->
-            <ul>
+            <form>
                 {% for item in itens %}
-                <li>{{ item.nome_item }}</li>
+                <div class="form-group">
+                    <label for="{{ item.nome_item }}">{{ item.nome_item }}</label>
+                    {% if item.tipo == 'checkbox' %}
+                        <!-- Renderizar um campo checkbox -->
+                        <input type="checkbox" name="{{ item.nome_item }}" class="form-check-input">
+                    {% elif item.tipo == 'descritivo' %}
+                        <!-- Renderizar um campo de texto -->
+                        <input type="text" name="{{ item.nome_item }}" class="form-control">
+                    {% else %}
+                        <!-- Renderizar um campo de lista -->
+                        <select name="{{ item.nome_item }}" class="form-control">
+                            {% for opcao in item.lista.opcaolista_set.all %}
+                                <option value="{{ opcao.id }}">{{ opcao.descricao }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
                 {% endfor %}
-            </ul>
+            </form>
         </div>
         {% endfor %}
         <!-- Botões de navegação -->
-        {% if grupo_anterior_id %}
-        <a href="{% url 'detalhes_grupo' grupo_id=grupo_anterior_id %}" class="btn btn-primary">Voltar</a>
-        {% endif %}
-        {% if proximo_grupo_id %}
-        <a href="{% url 'detalhes_grupo' grupo_id=proximo_grupo_id %}" class="btn btn-primary">Próxima Página</a>
-        {% endif %}
+        <div class="btn-container">
+            <div class="btn-group">
+                {% if grupo_anterior_id %}
+                <a href="{% url 'detalhes_grupo' grupo_id=grupo_anterior_id %}" class="btn btn-primary btn-left">Voltar</a>
+                {% endif %}
+                {% if proximo_grupo_id %}
+                <a href="{% url 'detalhes_grupo' grupo_id=proximo_grupo_id %}" class="btn btn-primary btn-right">Avançar</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </body>
 </html>

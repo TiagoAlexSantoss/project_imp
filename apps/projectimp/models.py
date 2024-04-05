@@ -53,6 +53,7 @@ class CadastroItem(models.Model):
         blank=False,
         related_name="subgrupo"
     )
+    lista = models.ForeignKey('Lista', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
        return self.nome_item
@@ -69,3 +70,20 @@ class CadastroRespostaItem(models.Model):
 
     def __str__(self):
        return self.nome_item
+    
+class Lista(models.Model):
+    nome = models.CharField(max_length=100)
+    ordem = models.IntegerField(default=0)
+    ativo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nome
+
+class OpcaoLista(models.Model):
+    lista = models.ForeignKey(Lista, on_delete=models.CASCADE)
+    descricao = models.CharField(max_length=100)
+    ordem = models.IntegerField(default=0)
+    ativo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.descricao

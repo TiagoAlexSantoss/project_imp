@@ -63,3 +63,41 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+  /* Aplique um espaçamento inferior aos campos do formulário */
+  .form-group {
+    margin-bottom: 20px;
+}
+/* Estilo para o formulário */
+.custom-form {
+    max-width: 800px; /* Largura máxima do formulário */
+    margin: 0 auto; /* Centralizar o formulário na tela */
+    padding: 20px; /* Espaçamento interno do formulário */
+    border: 1px solid #ccc; /* Borda do formulário */
+    border-radius: 5px; /* Borda arredondada */
+    background-color: #f9f9f9; /* Cor de fundo do formulário */
+    margin-bottom: 30px; /* Adiciona margem inferior para separar os formulários */
+}
+/* Estilo para o título do subgrupo */
+.subgrupo-title {
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 10px;
+} 
+.btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+.btn-container .btn {
+    margin: 0 5px;
+    
+}
+.btn-container .btn-left {
+    float: left;
+}
+.btn-container .btn-right {
+    float: right;
+}
+.btn-container .btn-group {
+    display: inline-block;
+}
