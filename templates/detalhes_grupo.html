@@ -93,5 +93,18 @@
             </div>
         </div>
     </div>
+    <script>
+            // Seleciona todas as opções de lista
+        var options = document.querySelectorAll('select[name="{{ item.nome_item }}"] option');
+        var order = [];
+
+        // Itera sobre as opções e adiciona suas descrições à lista 'order'
+        options.forEach(function(option) {
+            order.push(option.innerHTML);
+        });
+
+        // Imprime a lista de descrições no console do navegador
+        console.log(order)
+    </script>
 </body>
 </html>

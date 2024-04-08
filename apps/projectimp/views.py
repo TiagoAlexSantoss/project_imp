@@ -50,8 +50,6 @@ def responder_item(request):
 
     return render(request, 'resposta.html', {'subgrupos': subgrupos, 'itens_por_subgrupo': itens_por_subgrupo,  'tipos_por_item': tipos_por_item} )
 
-from django.shortcuts import render
-from .models import CadastroGrupo, CadastroSubGrupo, CadastroItem
 
 def detalhes_grupo(request, grupo_id):
     grupo = CadastroGrupo.objects.get(pk=grupo_id, ativo=True)
@@ -70,7 +68,9 @@ def detalhes_grupo(request, grupo_id):
                 # Verifique se há uma lista associada ao item
                 if item.lista:
                     # Recupere todas as opções da lista associada ao item
-                    item.opcoes_lista = item.lista.opcaolista_set.all()
+                    item.opcoes_lista = item.lista.opcaolista_set.all().order_by('ordem')
+                    for opcao in item.opcoes_lista:
+                        print(opcao.descricao, opcao.ordem)
         
         # Adicionar os itens ativos ao dicionário
         itens_por_subgrupo[subgrupo] = itens_ativos

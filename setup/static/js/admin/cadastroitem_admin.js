@@ -16,4 +16,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Adiciona um listener para o evento de mudança no campo tipo
     tipoField.addEventListener('change', toggleListaField);
+
+    // Adiciona um listener para o evento de envio do formulário
+    document.querySelector('form').addEventListener('submit', function() {
+        // Verifica se o tipo do item é 'lista' e se um valor foi selecionado na lista
+        if (tipoField.value === 'list' && listaField.value !== '') {
+            // Adiciona o valor selecionado na lista como um campo oculto no formulário
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'lista';
+            hiddenInput.value = listaField.value;
+            this.appendChild(hiddenInput);
+        }
+    });
 });
