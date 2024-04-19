@@ -51,3 +51,8 @@ class SalvarRespostaForm(forms.ModelForm):
         # Isso presume que você está passando um CadastroItem como instância para o formulário
         if self.instance.nome_item:  # Verifique se o CadastroRespostaItem tem um CadastroItem associado
             self.fields['nome_item'].initial = self.instance.nome_item.nome_item  # Defina o valor inicial do campo como o nome do item
+
+class CadastroRespostaItemForm(forms.ModelForm):
+    class Meta:
+        model = CadastroRespostaItem
+        fields = ['resposta_item', 'nome_item']

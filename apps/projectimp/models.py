@@ -69,7 +69,7 @@ class CadastroRespostaItem(models.Model):
     )
 
     def __str__(self):
-       return self.nome_item
+       return self.resposta_item
     
 class Lista(models.Model):
     nome = models.CharField(max_length=100)

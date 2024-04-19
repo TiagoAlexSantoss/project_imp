@@ -5,47 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ grupo.nome_grupo }}</title>
-    <!-- Inclua seus arquivos de CSS e JS aqui -->
+    <!-- Inclua seus arquivos de CSS aqui -->
     <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}"> <!-- Importe o arquivo CSS do Bootstrap -->
     <link rel="stylesheet" href="{% static 'styles/style.css' %}"> <!-- Importe o seu arquivo CSS personalizado -->
     <style>
-        /* Aplique um espaçamento inferior aos campos do formulário */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        /* Estilo para o formulário */
-        .custom-form {
-            max-width: 800px; /* Largura máxima do formulário */
-            margin: 0 auto; /* Centralizar o formulário na tela */
-            padding: 20px; /* Espaçamento interno do formulário */
-            border: 1px solid #ccc; /* Borda do formulário */
-            border-radius: 5px; /* Borda arredondada */
-            background-color: #f9f9f9; /* Cor de fundo do formulário */
-            margin-bottom: 30px; /* Adiciona margem inferior para separar os formulários */
-        }
-        /* Estilo para o título do subgrupo */
-        .subgrupo-title {
-            font-size: 1.5em;
-            margin-top: 30px;
-            margin-bottom: 10px;
-        } 
-        .btn-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .btn-container .btn {
-            margin: 0 5px;
-            
-        }
-        .btn-container .btn-left {
-            float: left;
-        }
-        .btn-container .btn-right {
-            float: right;
-        }
-        .btn-container .btn-group {
-            display: inline-block;
-        }
+        /* Estilos adicionais aqui */
     </style>
 </head>
 <body class="body">
@@ -57,8 +21,9 @@
         <div class="mx-auto custom-form">
             <h2>{{ subgrupo.nome_subgrupo }}</h2>
             
-            <!-- Iterando sobre os itens relacionados a este subgrupo -->
-            <form>
+            
+            <form id="form-{{ subgrupo.id }}" method="POST"> 
+                {% csrf_token %} 
                 {% for item in itens %}
                 <div class="form-group">
                     <label for="{{ item.nome_item }}">{{ item.nome_item }}</label>
@@ -92,19 +57,11 @@
                 {% endif %}
             </div>
         </div>
-    </div>
+    </div>    
     <script>
-            // Seleciona todas as opções de lista
-        var options = document.querySelectorAll('select[name="{{ item.nome_item }}"] option');
-        var order = [];
-
-        // Itera sobre as opções e adiciona suas descrições à lista 'order'
-        options.forEach(function(option) {
-            order.push(option.innerHTML);
-        });
-
-        // Imprime a lista de descrições no console do navegador
-        console.log(order)
+        function submitForm(grupoId) {
+            console.log('Botão clicado para o grupo ID:', grupoId);   
+        }
     </script>
 </body>
 </html>
