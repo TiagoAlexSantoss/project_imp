@@ -1,5 +1,3 @@
-{% load static %}
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -14,13 +12,13 @@
         {% for subgrupo, itens in itens_por_subgrupo.items %}
         <h2>{{ subgrupo.nome_subgrupo }}</h2>
         {% for item in itens %}
-        <label for="id_{{ item.nome_item }}">{{ item.nome_item }}</label>
+        <label for="id_item_{{ item.id }}">{{ item.nome_item }}</label>
         {% if item.tipo == 'checkbox' %}
-        <input type="checkbox" id="id_{{ item.nome_item }}" name="{{ item.nome_item }}">
+        <input type="checkbox" id="id_item_{{ item.id }}" name="item_{{ item.id }}">
         {% elif item.tipo == 'descritivo' %}
-        <input type="text" id="id_{{ item.nome_item }}" name="{{ item.nome_item }}">
+        <input type="text" id="id_item_{{ item.id }}" name="item_{{ item.id }}">
         {% elif item.tipo == 'lista' %}
-        <select id="id_{{ item.nome_item }}" name="{{ item.nome_item }}">
+        <select id="id_item_{{ item.id }}" name="item_{{ item.id }}">
             {% for opcao in item.lista.opcaolista_set.all %}
             <option value="{{ opcao.id }}">{{ opcao.descricao }}</option>
             {% endfor %}

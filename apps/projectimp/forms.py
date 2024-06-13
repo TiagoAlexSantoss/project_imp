@@ -52,7 +52,20 @@ class SalvarRespostaForm(forms.ModelForm):
         if self.instance.nome_item:  # Verifique se o CadastroRespostaItem tem um CadastroItem associado
             self.fields['nome_item'].initial = self.instance.nome_item.nome_item  # Defina o valor inicial do campo como o nome do item
 
+
 class CadastroRespostaItemForm(forms.ModelForm):
     class Meta:
         model = CadastroRespostaItem
         fields = ['resposta_item', 'nome_item']
+
+    def __init__(self, *args, **kwargs):
+        super(CadastroRespostaItemForm, self).__init__(*args, **kwargs)
+        for item in CadastroRespostaItem.objects.filter(ativo=True):
+            field_name = f'item_{item.id}'
+            if item.tipo == 'checkbox':
+                self.fields[field_name] = forms.BooleanField(label=item.nome_item, required=False)
+            elif item.tipo == 'descritivo':
+                self.fields[field_name] = forms.CharField(label=item.nome_item, required=False)
+            elif item.tipo == 'lista':
+                self.fields[field_name] = forms.ModelChoiceField(
+                    queryset=item.lista.opcaolista_set.all(), label=item.nome_item, required=False)

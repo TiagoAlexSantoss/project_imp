@@ -105,12 +105,20 @@ def detalhes_grupo(request, grupo_id):
 
 def crud_resposta_item(request):
     if request.method == 'POST':
-        form = CadastroRespostaItemForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('nova_view')
-    else:
-        form = CadastroRespostaItemForm()
+        for item in CadastroItem.objects.filter(ativo=True):
+            field_name = f'item_{item.id}'
+            if item.tipo == 'checkbox':
+                resposta = request.POST.get(field_name) == 'on'
+                CadastroRespostaItem.objects.create(nome_item=item, resposta_item=resposta)
+            elif item.tipo == 'descritivo':
+                resposta = request.POST.get(field_name)
+                CadastroRespostaItem.objects.create(nome_item=item, resposta_item=resposta)
+            elif item.tipo == 'lista':
+                resposta_id = request.POST.get(field_name)
+                if resposta_id:
+                    resposta_opcao = OpcaoLista.objects.get(id=resposta_id)
+                    CadastroRespostaItem.objects.create(nome_item=item, resposta_item=resposta_opcao.descricao)
+        return redirect('crud_resposta_item')
     
     subgrupos = CadastroSubGrupo.objects.all()
     
@@ -120,8 +128,7 @@ def crud_resposta_item(request):
         itens_por_subgrupo[subgrupo] = itens_ativos
     
     context = {
-        'itens_por_subgrupo': itens_por_subgrupo,
-        'form': form
+        'itens_por_subgrupo': itens_por_subgrupo
     }
     
     return render(request, 'crud_resposta_item.html', context)
